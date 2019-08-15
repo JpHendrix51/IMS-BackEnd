@@ -2,13 +2,13 @@ EndPoints information:
 
 For the PURCHASES layout:
 
-1. Add new record on purchases layout
+1. Add new `record` on purchases layout
 To add a new product and at the same time to add the quantity of the purchase use 
 The same EndPoint:
-	
+```md
 	Method: POST
 	/purchases/add
-
+```
 2. Remove record on purchases layout
 To add a new product and at the same time to add the quantity of the purchase use 
 The same EndPoint:
