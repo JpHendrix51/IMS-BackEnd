@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
-from models import db
+from models import db, Products
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -53,7 +53,7 @@ def purchasesRemove():
 
 # TO GET ALL PURCHASES FROM THE TRANSACTIONS TABLE BASED ON AN ID:
 
-@app.route('transactions/purchases/<int:purchases_id>')
+@app.route('/transactions/purchases/<int:purchases_id>')
 def transactionsPurchasesGet():
     return jsonify([{
         "id": "666",
@@ -65,7 +65,7 @@ def transactionsPurchasesGet():
 # TO DELETE A RECORD ON THE TRANSACTIONS TABLE RELATED TO A PURCHASE BASED ON A PURCHASE ID:
 # FOR EXAMPLE AN ITEM ADDED IN A PURCHASE RECORD
 
-@app.route('transactions/purchases/remove/<int:transactions_id>')
+@app.route('/transactions/purchases/remove/<int:transactions_id>')
 def transactionsPurchasesRemove():
     return jsonify([{
         "id": "666",
@@ -76,7 +76,7 @@ def transactionsPurchasesRemove():
 
 # TO GET ALL SALES FROM THE TRANSACTIONS TABLE BASED ON AN ID:
 
-@app.route('transactions/sales/remove/<int:transactions_id>')
+@app.route('/transactions/sales/remove/<int:transactions_id>')
 def transactionsSalesGet():
     return jsonify([{
         "id": "666",
@@ -88,7 +88,7 @@ def transactionsSalesGet():
 # TO DELETE A RECORD ON THE TRANSACTIONS TABLE RELATED TO A SALE BASED ON A SALE ID:
 # FOR EXAMPLE AN ITEM ADDED IN A SALE RECORD
 
-@app.route('transactions/sales/remove/<int:sales_id>')
+@app.route('/transactions/sales/remove/<int:sales_id>')
 def transactionsSalesRemove():
     return jsonify([{
         "id": "666",
@@ -100,7 +100,7 @@ def transactionsSalesRemove():
 
 # TO GET ALL THE DELIVERIES FROM THE TRANSACTIONS TABLE:
 
-@app.route('transactions/deliveries')
+@app.route('/transactions/deliveries')
 def transactionsDeliveriesGet():
     return jsonify([{
         "id": "666",
@@ -111,7 +111,7 @@ def transactionsDeliveriesGet():
 
 # TO GET A SINGLE DELIVERY FROM THE TRANSACTIONS TABLE BASED ON AN ID:
 
-@app.route('transactions/delivery/<int:delivery_id>')
+@app.route('/transactions/delivery/<int:delivery_id>')
 def transactionsDeliveryGet():
     return jsonify([{
         "id": "666",
@@ -172,7 +172,7 @@ def deliveriesRemove():
 
 @app.route('/deliveries/map/<int:deliveries_id>')
 
-def productsSingleGet():
+def deliveriesMap():
 
     return jsonify([{
         "id": "666",
@@ -184,6 +184,39 @@ def productsSingleGet():
 ########################################### FOR THE PRODUCTS TABLE ################################################
 
 # TO GET ALL PRODUCTS FROM THE PRODUCTS/INVENTORY TABLE
+
+@app.route('/products/all/beta', methods=['POST', 'GET'])
+
+def productsAllGetBeta():
+    #     body = request.get_json()
+
+    #     if body is None:
+    #         raise APIException("You need to specify the request body as a json object", status_code=400)
+    #     if 'item' not in body:
+    #         raise APIException('You need to specify the item', status_code=400)
+    #     if 'description' not in body:
+    #         raise APIException('You need to specify the description', status_code=400)
+    #     if 'quantity' not in body:
+    #         raise APIException('You need to specify the quantity', status_code=400)
+
+    if request.method == 'POST':
+        for i in range(20):
+            p = Products(item=f'item{i}', description=f'description{i}')
+            db.session.add(p)
+
+        db.session.commit()
+
+        all_products = Products.query.all()
+        all_products = list(map(lambda item: item.serialize(), all_products))
+        return jsonify(all_products), 200
+
+    # GET request
+    if request.method == 'GET':
+        all_products = Products.query.all()
+        all_products = list(map(lambda item: item.serialize(), all_products))
+        return jsonify(all_products), 200
+
+    return "Invalid Method", 404
 
 @app.route('/products/all')
 
@@ -212,7 +245,6 @@ def productsAllGet():
 @app.route('/products/<int:products_id>')
 
 def productsSingleGet():
-
     return jsonify([{
         "id": "666",
         "item": "product_1",
