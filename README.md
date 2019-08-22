@@ -99,6 +99,7 @@
 - First you should have a product with an initial quantity
 - Second you must create a "IN" or "OUT" record
 - If its IN you should set OUT to null, and viceversa
+- If its IN you should set the quantity amount to positive, if its OUT you should set it to negative (example : -3)
 
 ### TO `GET ALL` RECORDS OF "TRANSACTIONS"
 
