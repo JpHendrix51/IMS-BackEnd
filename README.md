@@ -1,96 +1,112 @@
-EndPoints information:
+# EndPoints:
 
-## For the PURCHASES layout:
-
-1. Add new `record` on purchases layout
-To add a new product and at the same time to add the quantity of the purchase use 
-The same EndPoint:
 ```md
-	Method: POST
-	/purchases/add
-```
-2. Remove `record` on purchases layout
-To add a new product and at the same time to add the quantity of the purchase use 
-The same EndPoint:
-```md	
-	Method: DELETE
-	/purchases/remove/purchases:id
-```
-3. Create a `product` / Add `product` quantity
-To add a new product and at the same time to add the quantity of the purchase use 
-The same EndPoint:
-```md
-	Method: POST
-	/products/purchases/add
-```
-4. Remove `product` quantity
-To remove a product of the sale table use The EndPoint:
-```md	
-	Method: DELETE
-	/products/purchases/remove/remove:id
-```
-## For the SALES layout:
-
-6. Add new `record` on sales layout
-To add a new product and at the same time to add the quantity of the sale use 
-The same EndPoint:
-```md	
-	Method: POST
-	/sales/add
-```
-7. Remove `record` on sales layout
-To add a new product and at the same time to add the quantity of the sale use 
-The same EndPoint:
-```md	
-	Method: DELETE
-	/sales/remove/remove:id
-```
-8. Make a SALE
-To add a new `product` and at the same time to add the quantity of the sale use 
-This EndPoint:
-```md
-	Method: POST
-	/products/sales/add
-```
-9. Remove `product` quantity
-To remove a product of the sale table use The same EndPoint:
-```md	
-	Method: DELETE
-	/products/sale/remove/remove:id
+	•	/transactions/new
+	•	/purchases/all
+	•	/products/all
+	•	/sales/all
 ```
 
-## For the INVENTORY layout:
+## INVENTORY `PRODUCTS` TABLE:
 
-10. To get all the `products`
-To remove a product of the sale table use The same EndPoint:
+### TO `ADD` A NEW RECORD FOR "PRODUCTS"
+
 ```md	
-	Method: GET
+	Method: POST
 	/products/all
 ```
+- Body must contain the following:
 
-## For the DELIVERY layout:
+```md	
+	 {
+  	 "item":"chocolate",
+	 "description":"food",
+	 "quantity":"7"
+         }
+```
+- First Item Name, description
+- Second you must put an initial quantity
 
-11. To get all the `warehouses` (motorcycles)
-To remove a product of the sale table use The same EndPoint:
-```md	
-	Method: GET
-	/warehouses/all
-```
-12. To get a particular `warehouse`
-To remove a product of the sale table use The same EndPoint:
-```md	
-	Method: GET
-	/warehouses/warehouse:id
-```
-## For the CUSTOMER layout:
+### TO `GET ALL` RECORDS OF "TRANSACTIONS"
 
-11. To get the `user` and it's related order:
 ```md	
 	Method: GET
-	/user/user:id
+	/transactions/new
 ```
-12. To get the `map`: 
+- Retrieves all records on this table
+
+
+## INVENTORY `IN` TABLE:
+
+### TO `ADD` A NEW RECORD FOR "IN"
+
+```md	
+	Method: POST
+	/purchases/all
+```
+- Adds a record with `id` and `Creation Date`
+- To create a `Transaction IN` you must add a new record for IN
+
+
+### TO `GET ALL` RECORDS OF "IN"
+
 ```md	
 	Method: GET
-	/warehouses/warehouse:id/map
+	/purchases/all
 ```
+- Retrieves all records on this table, including the related product
+
+
+## INVENTORY `OUT` TABLE:
+
+### TO `ADD` A NEW RECORD FOR "OUT"
+
+```md	
+	Method: POST
+	/sales/all
+```
+- Adds a record with `id` and `Creation Date`
+- To create a `Transaction OUT` you must add a new record for OUT
+
+
+### TO `GET ALL` RECORDS OF "OUT"
+
+```md	
+	Method: GET
+	/sales/all
+```
+- Retrieves all records on this table, including the related product
+
+
+## INVENTORY `TRANSACTIONS` TABLE:
+
+### TO `ADD` A NEW RECORD FOR "TRANSACTIONS" (CAN BE IN OR OUT)
+
+```md	
+	Method: POST
+	/transactions/new
+```
+- Body must contain the following:
+
+```md	
+	{
+	"products_id":3,
+	"quantity":5,
+	"sales_id":1,
+	"purchases_id": null
+	}
+```
+- First you should have a product with an initial quantity
+- Second you must create a "IN" or "OUT" record
+- If its IN you should set OUT to null, and viceversa
+
+### TO `GET ALL` RECORDS OF "TRANSACTIONS"
+
+```md	
+	Method: GET
+	/transactions/new
+```
+- Retrieves all records on this table
+
+
+
