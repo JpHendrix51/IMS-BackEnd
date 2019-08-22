@@ -27,13 +27,13 @@
 - First Item Name, description
 - Second you must put an initial quantity
 
-### TO `GET ALL` RECORDS OF "TRANSACTIONS"
+### TO `GET ALL` RECORDS OF "PRODUCTS"
 
 ```md	
 	Method: GET
-	/transactions/new
+	/products/all
 ```
-- Retrieves all records on this table
+- Retrieves all records (products) and the related `Transactions`
 
 
 ## INVENTORY `IN` TABLE:
